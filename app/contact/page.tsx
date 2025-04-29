@@ -59,7 +59,7 @@ export default function ContactPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="bg-gray-50 py-12 dark:bg-gray-900">
-          <div className="mx-auto px-12 py-10">
+          <div className="container">
             <div className="mx-auto max-w-3xl text-center">
               <h1 className="text-3xl font-bold md:text-4xl">Contact Us</h1>
               <p className="mt-4 text-gray-600 dark:text-gray-300">
@@ -72,7 +72,7 @@ export default function ContactPage() {
 
         {/* Contact Info & Form */}
         <section className="py-12">
-          <div className="mx-auto px-12">
+          <div className="container">
             <div className="grid gap-8 md:grid-cols-3">
               {/* Contact Information */}
               <div className="space-y-8 md:col-span-1">
@@ -268,7 +268,7 @@ export default function ContactPage() {
 
         {/* Map Section */}
         <section className="py-12">
-          <div className="mx-auto px-12">
+          <div className="container">
             <h2 className="mb-6 text-2xl font-bold">Find Us</h2>
             <div className="h-[400px] overflow-hidden rounded-lg border">
               <MapComponent location={{ lat: 21.1702, lng: 72.8311 }} zoom={15} markerTitle="Pavitra Sarees" />
@@ -278,7 +278,7 @@ export default function ContactPage() {
 
         {/* FAQ Section */}
         <section className="bg-gray-50 py-12 dark:bg-gray-900">
-          <div className="mx-auto px-12">
+          <div className="container">
             <div className="mx-auto max-w-3xl">
               <h2 className="mb-6 text-2xl font-bold">Frequently Asked Questions</h2>
               <div className="space-y-4">
@@ -379,6 +379,7 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
 const faqs = [
   {
     question: "What payment methods do you accept?",
@@ -393,6 +394,16 @@ const faqs = [
   {
     question: "Do you offer customization for sarees?",
     answer:
-      "Yes, we offer customization services for blouse designs, saree borders, and pallu work. Please contact our customer service for more details.",
+      "Yes, we offer customization services for blouse designs, saree borders, and pallu work. Please contact our customer service team for more details.",
+  },
+  {
+    question: "What is your return policy?",
+    answer:
+      "We offer a 7-day return policy for all products. Items must be unworn, unwashed, and in their original packaging with all tags attached.",
+  },
+  {
+    question: "Do you ship internationally?",
+    answer:
+      "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary based on the destination.",
   },
 ]

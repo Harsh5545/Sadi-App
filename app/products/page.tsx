@@ -37,7 +37,7 @@ export default function ProductsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <Navbar />
       <main className="flex-1">
-        <div className="mx-auto px-12 py-8">
+        <div className="container py-6">
           {/* Breadcrumb */}
           <nav className="mb-4 flex items-center space-x-2 text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground">

@@ -35,7 +35,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm dark:bg-gray-950">
-      <div className="mx-auto px-12  flex h-16 items-center">
+      <div className="container flex h-16 items-center">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="mr-2 lg:hidden">
@@ -66,8 +66,8 @@ export default function Navbar() {
         </Sheet>
 
         <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Image src="/placeholder.svg?height=32&width=32" alt="Alberow Logo" width={32} height={32} />
-          <span className="hidden text-xl font-bold sm:inline-block">Alberow</span>
+          <Image src="/placeholder.svg?height=32&width=32" alt="Pavitra Sarees Logo" width={32} height={32} />
+          <span className="hidden text-xl font-bold sm:inline-block">Pavitra Sarees</span>
         </Link>
 
         <nav className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center lg:space-x-6">

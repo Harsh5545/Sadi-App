@@ -61,7 +61,7 @@ export default function CartPage() {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
-        <div className="mx-auto px-12 py-8">
+        <div className="container py-8">
           {/* Breadcrumb */}
           <nav className="mb-6 flex items-center text-sm text-gray-500 dark:text-gray-400">
             <Link href="/" className="hover:text-rose-600">

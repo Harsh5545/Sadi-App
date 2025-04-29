@@ -39,7 +39,7 @@ export default function AboutPage() {
 
         {/* Our Story */}
         <section className="py-16">
-          <div className="mx-auto  px-12">
+          <div className="container">
             <div className="grid gap-12 md:grid-cols-2 md:items-center">
               <div>
                 <h2 className="text-3xl font-bold">Our Story</h2>
@@ -80,7 +80,7 @@ export default function AboutPage() {
 
         {/* Our Mission */}
         <section className="bg-gray-50 py-16 dark:bg-gray-900">
-          <div className=" px-4">
+          <div className="container">
             <div className="mx-auto max-w-3xl text-center">
               <h2 className="text-3xl font-bold">Our Mission</h2>
               <p className="mt-6 text-lg text-gray-600 dark:text-gray-300">
@@ -126,7 +126,7 @@ export default function AboutPage() {
 
         {/* Our Team */}
         <section className="py-16">
-          <div className="mx-auto px-12">
+          <div className="container">
             <h2 className="mb-12 text-center text-3xl font-bold">Meet Our Team</h2>
             <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {team.map((member) => (
@@ -150,7 +150,7 @@ export default function AboutPage() {
 
         {/* Testimonials */}
         <section className="bg-gray-50 py-16 dark:bg-gray-900">
-          <div className="mx-auto px-12">
+          <div className="container">
             <h2 className="mb-12 text-center text-3xl font-bold">What Our Customers Say</h2>
             <div className="grid gap-8 md:grid-cols-3">
               {testimonials.map((testimonial, index) => (
@@ -191,7 +191,7 @@ export default function AboutPage() {
 
         {/* CTA */}
         <section className="py-16">
-          <div className="mx-auto px-12">
+          <div className="container">
             <div className="rounded-lg bg-rose-600 p-8 text-center text-white md:p-12">
               <h2 className="text-3xl font-bold">Experience the Pavitra Difference</h2>
               <p className="mx-auto mt-4 max-w-2xl text-lg">

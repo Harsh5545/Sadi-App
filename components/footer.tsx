@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 export default function Footer() {
   return (
     <footer className="bg-gray-100 dark:bg-gray-900">
-      <div className="mx-auto px-12  py-12 md:py-16">
+      <div className="container py-12 md:py-16">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <h3 className="mb-4 text-lg font-bold">About Alberow</h3>

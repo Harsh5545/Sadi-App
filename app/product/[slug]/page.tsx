@@ -95,7 +95,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
-        <div className="mx-auto px-12 py-8">
+        <div className="container py-6">
           {/* Breadcrumb */}
           <nav className="mb-4 flex items-center space-x-2 text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground">

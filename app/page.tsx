@@ -61,7 +61,7 @@ export default function Home() {
 
         {/* Featured Categories Section */}
         <section className="py-16">
-          <div className="mx-auto px-12 py-8">
+          <div className="container">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-3xl font-bold">Shop by Category</h2>
               <Link href="/categories" className="flex items-center text-rose-600 hover:underline">
@@ -78,7 +78,7 @@ export default function Home() {
 
         {/* Featured Collections */}
         <section className="bg-gray-50 py-16 dark:bg-gray-900">
-          <div className="mx-auto px-12 py-8">
+          <div className="container">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-3xl font-bold">Featured Collections</h2>
               <Link href="/collections" className="flex items-center text-rose-600 hover:underline">
@@ -116,7 +116,7 @@ export default function Home() {
 
         {/* Featured Products */}
         <section className="py-16">
-          <div className="mx-auto px-12 py-8">
+          <div className="container">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-3xl font-bold">Featured Products</h2>
               <Link href="/products" className="flex items-center text-rose-600 hover:underline">
@@ -172,7 +172,7 @@ export default function Home() {
 
         {/* Banner Section */}
         <section className="py-8">
-          <div className="mx-auto px-12 py-8">
+          <div className="container">
             <div className="relative overflow-hidden rounded-lg">
               <Image
                 src="/placeholder.svg?height=400&width=1200"
@@ -198,7 +198,7 @@ export default function Home() {
 
         {/* Testimonials */}
         <section className="py-16">
-          <div className="mx-auto px-12 py-8">
+          <div className="container">
             <h2 className="mb-8 text-center text-3xl font-bold">What Our Customers Say</h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {testimonials.map((testimonial, index) => (
@@ -210,7 +210,7 @@ export default function Home() {
 
         {/* Instagram Feed */}
         <section className="py-16 bg-gray-50 dark:bg-gray-900">
-          <div className="mx-auto px-12 py-8">
+          <div className="container">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-3xl font-bold">Follow Us on Instagram</h2>
               <Link href="https://instagram.com/alberow" className="flex items-center text-rose-600 hover:underline">
@@ -240,7 +240,7 @@ export default function Home() {
 
         {/* Features Section */}
         <section className="py-16">
-          <div className="mx-auto px-12 py-8">
+          <div className="container">
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {features.map((feature, index) => (
                 <Card key={index} className="border-none shadow-none">
