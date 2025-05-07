@@ -10,9 +10,9 @@ export default function Footer() {
       <div className="container py-12 md:py-16">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 className="mb-4 text-lg font-bold">About Pavitra sarees</h3>
+            <h3 className="mb-4 text-lg font-bold">About Alberow</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-            Pavitra sarees is a premium sadi e-commerce platform offering the finest collection of traditional Indian ethnic
+              Alberow is a premium sadi e-commerce platform offering the finest collection of traditional Indian ethnic
               wear.
             </p>
             <div className="mt-4 flex space-x-4">
@@ -111,7 +111,7 @@ export default function Footer() {
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               <strong>Contact Info:</strong>
               <br />
-              Email: info@pavitrasarees.com
+              Email: info@alberow.com
               <br />
               Phone: +91 98765 43210
             </p>

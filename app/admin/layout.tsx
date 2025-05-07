@@ -53,13 +53,44 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       href: "/admin/customers",
       active: pathname === "/admin/customers",
     },
+
     {
       label: "Categories",
       icon: Box,
       href: "/admin/categories",
       active: pathname === "/admin/categories",
     },
+     {
+      label: "Blog",
+      icon: BarChart3,
+      href: "/admin/blog",
+      active: pathname === "/admin/blog",
+    },
+     {
+      label: "Notifications",
+      icon: BarChart3,
+      href: "/admin/notifications",
+      active: pathname === "/admin/notifications",
+    },
     {
+      label: "Marketing",
+      icon: BarChart3,
+      href: "/admin/marketing",
+      active: pathname === "/admin/marketing",
+    },
+     {
+      label: "Reviews",
+      icon: BarChart3,
+      href: "/admin/reviews",
+      active: pathname === "/admin/reviews",
+    },
+    {
+      label: "Shipments",
+      icon: BarChart3,
+      href: "/admin/shipments",
+      active: pathname === "/admin/shipments",
+    },
+     {
       label: "Analytics",
       icon: BarChart3,
       href: "/admin/analytics",
@@ -104,7 +135,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="flex w-full items-center gap-4 md:gap-2 lg:gap-4">
           <Link href="/admin" className="flex items-center gap-2 font-semibold">
             <Home className="h-6 w-6" />
-            <span className="hidden md:inline-block">Admin</span>
+            <span className="hidden md:inline-block">Alberow Admin</span>
           </Link>
           <div className="relative ml-auto flex-1 md:grow-0">
             <Input type="search" placeholder="Search..." className="w-full md:w-[200px] lg:w-[300px]" />

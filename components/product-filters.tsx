@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Check, ChevronDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -8,13 +8,44 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Slider } from "@/components/ui/slider"
 
-export default function ProductFilters() {
-  const [priceRange, setPriceRange] = useState([1000, 20000])
+interface ProductFiltersProps {
+  onCategoryChange?: (category: string) => void
+  onPriceChange?: (range: [number, number]) => void
+  selectedCategory?: string
+  priceRange?: [number, number]
+}
+
+export default function ProductFilters({
+  onCategoryChange,
+  onPriceChange,
+  selectedCategory = "all",
+  priceRange = [0, 20000],
+}: ProductFiltersProps) {
   const [openCategories, setOpenCategories] = useState(true)
   const [openPrice, setOpenPrice] = useState(true)
   const [openColors, setOpenColors] = useState(true)
   const [openFabrics, setOpenFabrics] = useState(true)
   const [openOccasions, setOpenOccasions] = useState(true)
+  const [localPriceRange, setLocalPriceRange] = useState<[number, number]>(priceRange)
+
+  // Update local price range when prop changes
+  useEffect(() => {
+    setLocalPriceRange(priceRange)
+  }, [priceRange])
+
+  const handlePriceChange = (value: number[]) => {
+    const newRange: [number, number] = [value[0], value[1]]
+    setLocalPriceRange(newRange)
+    if (onPriceChange) {
+      onPriceChange(newRange)
+    }
+  }
+
+  const handleCategoryChange = (categoryId: string) => {
+    if (onCategoryChange) {
+      onCategoryChange(categoryId)
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -29,7 +60,11 @@ export default function ProductFilters() {
         <CollapsibleContent className="mt-4 space-y-4">
           {categories.map((category) => (
             <div key={category.id} className="flex items-center space-x-2">
-              <Checkbox id={`category-${category.id}`} />
+              <Checkbox
+                id={`category-${category.id}`}
+                checked={selectedCategory === category.id}
+                onCheckedChange={() => handleCategoryChange(category.id)}
+              />
               <label
                 htmlFor={`category-${category.id}`}
                 className="flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -52,16 +87,15 @@ export default function ProductFilters() {
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-4 space-y-4">
           <Slider
-            defaultValue={[1000, 20000]}
-            min={1000}
+            min={0}
             max={20000}
             step={500}
-            value={priceRange}
-            onValueChange={setPriceRange}
+            value={[localPriceRange[0], localPriceRange[1]]}
+            onValueChange={handlePriceChange}
           />
           <div className="flex items-center justify-between">
-            <div className="rounded-md border px-2 py-1 text-xs">₹{priceRange[0].toLocaleString()}</div>
-            <div className="rounded-md border px-2 py-1 text-xs">₹{priceRange[1].toLocaleString()}</div>
+            <div className="rounded-md border px-2 py-1 text-xs">₹{localPriceRange[0].toLocaleString()}</div>
+            <div className="rounded-md border px-2 py-1 text-xs">₹{localPriceRange[1].toLocaleString()}</div>
           </div>
         </CollapsibleContent>
       </Collapsible>
@@ -147,12 +181,13 @@ export default function ProductFilters() {
 }
 
 const categories = [
-  { id: 1, name: "Silk Sarees", count: 120 },
-  { id: 2, name: "Cotton Sarees", count: 85 },
-  { id: 3, name: "Designer Sarees", count: 64 },
-  { id: 4, name: "Wedding Collection", count: 42 },
-  { id: 5, name: "Casual Wear", count: 78 },
-  { id: 6, name: "Festive Collection", count: 56 },
+  { id: "all", name: "All Products", count: 248 },
+  { id: "silk", name: "Silk Sarees", count: 120 },
+  { id: "cotton", name: "Cotton Sarees", count: 85 },
+  { id: "designer", name: "Designer Sarees", count: 64 },
+  { id: "wedding", name: "Wedding Collection", count: 42 },
+  { id: "casual", name: "Casual Wear", count: 78 },
+  { id: "festive", name: "Festive Collection", count: 56 },
 ]
 
 const colors = [
