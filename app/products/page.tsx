@@ -1,453 +1,359 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { ChevronRight, Filter, Search, SlidersHorizontal, X } from "lucide-react"
+import { useState } from "react"
+import {
+  PlusCircle,
+  Users,
+  Calendar,
+  Tag,
+  CheckCircle2,
+  Clock,
+  Search,
+  Filter,
+  ChevronDown,
+  ArrowUpDown,
+  MoreVertical,
+  Edit,
+  Trash2,
+} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-import MobileNav from "@/components/mobile-nav"
-import ProductCard from "@/components/product-card"
-import ProductFilters from "@/components/product-filters"
-import ProductSort from "@/components/product-sort"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Card, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-export default function ProductsPage() {
-  const [isClient, setIsClient] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedSort, setSelectedSort] = useState("featured")
-  const [priceRange, setPriceRange] = useState([0, 20000])
-  const [filteredProducts, setFilteredProducts] = useState(products)
+export default function NotificationsPage() {
+  const [sortColumn, setSortColumn] = useState<string | null>(null)
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
+  const [tab, setTab] = useState("all")
+  const [search, setSearch] = useState("")
 
-  // Handle client-side rendering
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
+  // This would be fetched from an API in a real application
+  const notifications = [
+    {
+      id: 1,
+      title: "New Summer Collection Launch",
+      message: "Explore our new summer collection with exclusive discounts for the first week!",
+      type: "product",
+      status: "sent",
+      sentDate: "2025-04-15",
+      recipients: 1245,
+      clicks: 328,
+    },
+    {
+      id: 2,
+      title: "Wedding Season Sale",
+      message: "Get ready for the wedding season with our special collection and offers!",
+      type: "sale",
+      status: "sent",
+      sentDate: "2025-04-05",
+      recipients: 1182,
+      clicks: 276,
+    },
+    {
+      id: 3,
+      title: "New Blog: Styling Tips for Summer",
+      message: "Check out our latest blog post on styling sarees for summer events!",
+      type: "blog",
+      status: "sent",
+      sentDate: "2025-03-25",
+      recipients: 1140,
+      clicks: 195,
+    },
+    {
+      id: 4,
+      title: "Festive Collection Preview",
+      message: "Be the first to see our upcoming festive collection!",
+      type: "product",
+      status: "scheduled",
+      sentDate: "2025-05-10",
+      recipients: 1250,
+      clicks: null,
+    },
+    {
+      id: 5,
+      title: "Special Discount for Loyal Customers",
+      message: "As a valued customer, enjoy an exclusive 15% discount on your next purchase!",
+      type: "sale",
+      status: "draft",
+      sentDate: null,
+      recipients: 850,
+      clicks: null,
+    },
+  ]
 
-  // Filter products based on search, category, price range, etc.
-  useEffect(() => {
-    let filtered = [...products]
-
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    }
-
-    // Filter by category
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter((product) => product.category === selectedCategory)
-    }
-
-    // Filter by price range
-    filtered = filtered.filter((product) => {
-      const price = product.discountPrice || product.price
-      return price >= priceRange[0] && price <= priceRange[1]
-    })
-
-    // Sort products
-    switch (selectedSort) {
-      case "price-low-high":
-        filtered.sort((a, b) => (a.discountPrice || a.price) - (b.discountPrice || b.price))
-        break
-      case "price-high-low":
-        filtered.sort((a, b) => (b.discountPrice || b.price) - (a.discountPrice || a.price))
-        break
-      case "newest":
-        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        break
-      case "rating":
-        filtered.sort((a, b) => b.rating - a.rating)
-        break
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "sent":
+        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+      case "scheduled":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+      case "draft":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300"
       default:
-        // Featured or default sorting
-        filtered.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0))
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
     }
-
-    setFilteredProducts(filtered)
-  }, [searchTerm, selectedCategory, selectedSort, priceRange])
-
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category)
   }
 
-  const handleSortChange = (sort: string) => {
-    setSelectedSort(sort)
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case "product":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
+      case "sale":
+        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+      case "blog":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
+    }
   }
 
-  const handlePriceChange = (range: [number, number]) => {
-    setPriceRange(range)
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case "product":
+        return <Tag className="mr-2 h-4 w-4" />
+      case "sale":
+        return <Tag className="mr-2 h-4 w-4" />
+      case "blog":
+        return <Tag className="mr-2 h-4 w-4" />
+      default:
+        return null
+    }
   }
 
-  const handleClearFilters = () => {
-    setSearchTerm("")
-    setSelectedCategory("all")
-    setSelectedSort("featured")
-    setPriceRange([0, 20000])
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "sent":
+        return <CheckCircle2 className="mr-2 h-4 w-4 text-green-600" />
+      case "scheduled":
+        return <Calendar className="mr-2 h-4 w-4 text-blue-600" />
+      case "draft":
+        return <Clock className="mr-2 h-4 w-4 text-yellow-600" />
+      default:
+        return null
+    }
+  }
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortColumn(column)
+      setSortDirection('asc')
+    }
+  }
+
+  // Filtering and sorting logic
+  let filtered = notifications.filter((n) => {
+    if (tab === "all") return true
+    if (tab === "sent") return n.status === "sent"
+    if (tab === "scheduled") return n.status === "scheduled"
+    if (tab === "drafts") return n.status === "draft"
+    return true
+  })
+  if (search) {
+    filtered = filtered.filter(
+      (n) =>
+        n.title.toLowerCase().includes(search.toLowerCase()) ||
+        n.message.toLowerCase().includes(search.toLowerCase())
+    )
+  }
+  if (sortColumn) {
+    filtered = [...filtered].sort((a, b) => {
+      let aVal = a[sortColumn as keyof typeof a]
+      let bVal = b[sortColumn as keyof typeof b]
+      if (aVal === null) return 1
+      if (bVal === null) return -1
+      if (typeof aVal === "string" && typeof bVal === "string") {
+        return sortDirection === "asc"
+          ? aVal.localeCompare(bVal)
+          : bVal.localeCompare(aVal)
+      }
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return sortDirection === "asc" ? aVal - bVal : bVal - aVal
+      }
+      return 0
+    })
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <main className="flex-1">
-        <div className="container py-6">
-          {/* Breadcrumb */}
-          <nav className="mb-4 flex items-center space-x-2 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground">
-              Home
-            </Link>
-            <ChevronRight className="h-4 w-4" />
-            <span className="font-medium text-foreground">Products</span>
-          </nav>
-
-          {/* Search and Filter Bar */}
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h1 className="text-2xl font-bold md:text-3xl">All Products</h1>
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1 sm:w-64">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  className="pl-8"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" size="icon" className="md:hidden">
-                    <Filter className="h-4 w-4" />
-                    <span className="sr-only">Filter</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                  <SheetHeader>
-                    <SheetTitle>Filters</SheetTitle>
-                  </SheetHeader>
-                  <div className="py-4">
-                    <ProductFilters
-                      onCategoryChange={handleCategoryChange}
-                      onPriceChange={handlePriceChange}
-                      selectedCategory={selectedCategory}
-                      priceRange={priceRange}
-                    />
-                    <Button variant="outline" size="sm" className="mt-4 w-full" onClick={handleClearFilters}>
-                      <X className="mr-2 h-4 w-4" />
-                      Clear Filters
-                    </Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
-              <ProductSort onSortChange={handleSortChange} />
-            </div>
-          </div>
-
-          {/* Mobile Category Tabs */}
-          <div className="mb-6 overflow-auto md:hidden">
-            <Tabs defaultValue="all" value={selectedCategory} onValueChange={handleCategoryChange}>
-              <TabsList className="w-max">
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="silk">Silk</TabsTrigger>
-                <TabsTrigger value="cotton">Cotton</TabsTrigger>
-                <TabsTrigger value="wedding">Wedding</TabsTrigger>
-                <TabsTrigger value="casual">Casual</TabsTrigger>
-                <TabsTrigger value="designer">Designer</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-[240px_1fr]">
-            {/* Filters - Desktop */}
-            <Card className="hidden h-fit md:block">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-medium">Filters</h2>
-                  <Button variant="ghost" size="sm" className="h-8 text-xs" onClick={handleClearFilters}>
-                    Reset All
-                  </Button>
-                </div>
-                {isClient && (
-                  <ProductFilters
-                    onCategoryChange={handleCategoryChange}
-                    onPriceChange={handlePriceChange}
-                    selectedCategory={selectedCategory}
-                    priceRange={priceRange}
-                  />
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Products Grid */}
-            <div>
-              <div className="mb-4 hidden items-center justify-between md:flex">
-                <p className="text-sm text-muted-foreground">
-                  Showing {filteredProducts.length} of {products.length} products
-                </p>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">
-                    <SlidersHorizontal className="mr-2 h-4 w-4" />
-                    View: Grid
-                  </Button>
-                </div>
-              </div>
-
-              {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                  {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
-              ) : (
-                <div className="flex h-60 flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
-                  <div className="text-3xl">😔</div>
-                  <h3 className="mt-4 text-lg font-medium">No products found</h3>
-                  <p className="mt-2 text-sm text-gray-500">Try adjusting your search or filter criteria</p>
-                  <Button variant="outline" className="mt-4" onClick={handleClearFilters}>
-                    Clear Filters
-                  </Button>
-                </div>
-              )}
-
-              {/* Pagination */}
-              {filteredProducts.length > 0 && (
-                <div className="mt-8 flex justify-center">
-                  <nav className="flex items-center space-x-1">
-                    <Button variant="outline" size="icon" disabled>
-                      <ChevronLeft className="h-4 w-4" />
-                      <span className="sr-only">Previous page</span>
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8 bg-primary text-primary-foreground">
-                      1
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8">
-                      2
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8">
-                      3
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8">
-                      4
-                    </Button>
-                    <Button variant="outline" size="sm" className="h-8 w-8">
-                      5
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <ChevronRight className="h-4 w-4" />
-                      <span className="sr-only">Next page</span>
-                    </Button>
-                  </nav>
-                </div>
-              )}
-            </div>
-          </div>
+    <div className="flex flex-col space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold tracking-tight">Notifications</h1>
+        <div className="flex items-center gap-2">
+          <Button variant="outline">
+            <Users className="mr-2 h-4 w-4" />
+            Manage Subscribers
+          </Button>
+          <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Create Notification
+          </Button>
         </div>
-      </main>
-      <Footer />
-      <MobileNav />
+      </div>
+
+      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+        <div className="flex items-center space-x-2">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+            <Input
+              type="search"
+              placeholder="Search notifications..."
+              className="w-full rounded-md pl-8 md:w-[300px]"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="h-9">
+                <Filter className="mr-2 h-4 w-4" />
+                Filter
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[200px]">
+              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Status</DropdownMenuItem>
+              <DropdownMenuItem>Type</DropdownMenuItem>
+              <DropdownMenuItem>Date Range</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+
+      <Tabs defaultValue="all" value={tab} onValueChange={setTab} className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="all">All Notifications</TabsTrigger>
+          <TabsTrigger value="sent">Sent</TabsTrigger>
+          <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
+          <TabsTrigger value="drafts">Drafts</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value={tab} className="space-y-4">
+          <Card>
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[300px]" onClick={() => handleSort('title')}>
+                      <div className="flex items-center cursor-pointer">
+                        Title
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </div>
+                    </TableHead>
+                    <TableHead onClick={() => handleSort('type')}>
+                      <div className="flex items-center cursor-pointer">
+                        Type
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </div>
+                    </TableHead>
+                    <TableHead onClick={() => handleSort('status')}>
+                      <div className="flex items-center cursor-pointer">
+                        Status
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </div>
+                    </TableHead>
+                    <TableHead onClick={() => handleSort('sentDate')}>
+                      <div className="flex items-center cursor-pointer">
+                        Date
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </div>
+                    </TableHead>
+                    <TableHead onClick={() => handleSort('recipients')}>
+                      <div className="flex items-center cursor-pointer">
+                        Recipients
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </div>
+                    </TableHead>
+                    <TableHead onClick={() => handleSort('clicks')}>
+                      <div className="flex items-center cursor-pointer">
+                        Clicks
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                      </div>
+                    </TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filtered.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-8">
+                        No notifications found.
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    filtered.map((notification) => (
+                      <TableRow key={notification.id}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{notification.title}</div>
+                            <div className="text-xs text-gray-500">{notification.message}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getTypeColor(notification.type)}`}>
+                            {getTypeIcon(notification.type)}
+                            {notification.type.charAt(0).toUpperCase() + notification.type.slice(1)}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getStatusColor(notification.status)}`}>
+                            {getStatusIcon(notification.status)}
+                            {notification.status.charAt(0).toUpperCase() + notification.status.slice(1)}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          {notification.sentDate ? (
+                            <span>{notification.sentDate}</span>
+                          ) : (
+                            <span className="text-gray-400">—</span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {notification.recipients}
+                        </TableCell>
+                        <TableCell>
+                          {notification.clicks !== null ? notification.clicks : <span className="text-gray-400">—</span>}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
-
-function ChevronLeft(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m15 18-6-6 6-6" />
-    </svg>
-  )
-}
-
-// Sample product data
-const products = [
-  {
-    id: 1,
-    name: "Banarasi Silk Saree",
-    slug: "banarasi-silk-saree",
-    price: 12999,
-    discountPrice: 9999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 5,
-    reviewCount: 24,
-    isNew: false,
-    isFeatured: true,
-    badge: "Bestseller",
-    category: "silk",
-    createdAt: "2023-01-15",
-  },
-  {
-    id: 2,
-    name: "Kanjivaram Silk Saree",
-    slug: "kanjivaram-silk-saree",
-    price: 15999,
-    discountPrice: 13999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4,
-    reviewCount: 18,
-    isNew: true,
-    isFeatured: true,
-    category: "silk",
-    createdAt: "2023-02-20",
-  },
-  {
-    id: 3,
-    name: "Chanderi Cotton Saree",
-    slug: "chanderi-cotton-saree",
-    price: 5999,
-    discountPrice: 4999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4,
-    reviewCount: 32,
-    isNew: false,
-    isFeatured: true,
-    badge: "Sale",
-    category: "cotton",
-    createdAt: "2023-03-05",
-  },
-  {
-    id: 4,
-    name: "Mysore Silk Saree",
-    slug: "mysore-silk-saree",
-    price: 8999,
-    discountPrice: 7499,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 5,
-    reviewCount: 15,
-    isNew: false,
-    isFeatured: true,
-    category: "silk",
-    createdAt: "2023-03-15",
-  },
-  {
-    id: 5,
-    name: "Pochampally Ikat Saree",
-    slug: "pochampally-ikat-saree",
-    price: 7999,
-    discountPrice: 6499,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4,
-    reviewCount: 27,
-    isNew: true,
-    isFeatured: true,
-    category: "cotton",
-    createdAt: "2023-04-01",
-  },
-  {
-    id: 6,
-    name: "Patola Silk Saree",
-    slug: "patola-silk-saree",
-    price: 18999,
-    discountPrice: 16999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 5,
-    reviewCount: 19,
-    isNew: false,
-    isFeatured: true,
-    badge: "Bestseller",
-    category: "silk",
-    createdAt: "2023-04-10",
-  },
-  {
-    id: 7,
-    name: "Bhagalpuri Silk Saree",
-    slug: "bhagalpuri-silk-saree",
-    price: 6999,
-    discountPrice: 5999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4,
-    reviewCount: 23,
-    isNew: false,
-    isFeatured: true,
-    category: "silk",
-    createdAt: "2023-04-20",
-  },
-  {
-    id: 8,
-    name: "Gadwal Silk Saree",
-    slug: "gadwal-silk-saree",
-    price: 11999,
-    discountPrice: 9999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 5,
-    reviewCount: 14,
-    isNew: false,
-    isFeatured: true,
-    category: "silk",
-    createdAt: "2023-05-05",
-  },
-  {
-    id: 9,
-    name: "Sambalpuri Saree",
-    slug: "sambalpuri-saree",
-    price: 4999,
-    discountPrice: 3999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4,
-    reviewCount: 31,
-    isNew: false,
-    isFeatured: true,
-    badge: "Sale",
-    category: "cotton",
-    createdAt: "2023-05-15",
-  },
-  {
-    id: 10,
-    name: "Tussar Silk Saree",
-    slug: "tussar-silk-saree",
-    price: 8499,
-    discountPrice: 7499,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4,
-    reviewCount: 22,
-    isNew: false,
-    isFeatured: true,
-    category: "silk",
-    createdAt: "2023-06-01",
-  },
-  {
-    id: 11,
-    name: "Designer Linen Saree",
-    slug: "designer-linen-saree",
-    price: 7999,
-    discountPrice: 6999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 0,
-    reviewCount: 0,
-    isNew: true,
-    isFeatured: true,
-    badge: "New",
-    category: "designer",
-    createdAt: "2023-06-15",
-  },
-  {
-    id: 12,
-    name: "Organza Silk Saree",
-    slug: "organza-silk-saree",
-    price: 9999,
-    discountPrice: 8999,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 5,
-    reviewCount: 3,
-    isNew: true,
-    isFeatured: true,
-    badge: "New",
-    category: "designer",
-    createdAt: "2023-07-01",
-  },
-]
